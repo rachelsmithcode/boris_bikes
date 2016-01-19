@@ -6,6 +6,7 @@ class DockingStation
 
   def initialize
     @first_bike = true
+    @first_dock = true
   end
 
   def release_bike
@@ -22,7 +23,14 @@ class DockingStation
   end
 
   def dock(bike)
-    @bike = bike
+    if @first_dock
+      @first_dock = false
+      @bike = bike
+    elsif @bike == nil
+      @bike = bike
+    else
+      raise "Bike dock full"
+    end
   end
 
 end

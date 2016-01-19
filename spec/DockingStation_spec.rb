@@ -33,4 +33,11 @@ describe DockingStation do
     expect {subject.release_bike}.to raise_error(RuntimeError)
   end
 
+  it "returns an error if the docking station already contains a bike" do
+    bike = Bike.new
+    bike2 = Bike.new
+    expect {subject.dock(bike);(subject.dock(bike2))}.to raise_error(RuntimeError)
+  end
+
+
 end
