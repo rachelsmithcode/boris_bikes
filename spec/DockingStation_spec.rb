@@ -1,9 +1,11 @@
 require "DockingStation.rb"
+require "./lib/BikeContainer.rb"
 
 describe DockingStation do
 
   subject(:dockingstation) {described_class.new}
   let(:bike) {double :bike}
+  let(:van) {double :van}
 
   it "returns release_bike == true when asked to release bike" do
      expect(dockingstation).to respond_to (:release_bike)
@@ -16,11 +18,11 @@ describe DockingStation do
 
   it { is_expected.to respond_to(:dock).with(1).argument }
 
-  it { is_expected.to respond_to(:bikes_in_dock) }
+  it { is_expected.to respond_to(:bikecontainer) }
 
   it "docks bike" do
     subject.dock(bike)
-    expect(subject.bikes_in_dock).to eq [bike]
+    expect(subject.bikecontainer).to eq [bike]
   end
 
   it "returns the same bike as was docked once docked" do
@@ -56,4 +58,11 @@ describe DockingStation do
     allow(bike).to receive(:report_broken).and_return(false)
     expect{subject.dock(bike)}.not_to raise_error
   end
+
+  it "takes working bikes from van" do
+    allow(van).to receive(:bikecontainer).and_return([bike, bike, bike])
+    subject.take_bikes_from_van(van)
+    expect(subject.bikecontainer).to eq [bike, bike, bike]
+  end
+
 end
