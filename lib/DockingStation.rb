@@ -2,35 +2,41 @@ require "./lib/Bike.rb"
 
 class DockingStation
 
-  attr_reader :bike
+  attr_reader :bikes_in_dock, :capacity
 
-  def initialize
-    @first_bike = true
-    @first_dock = true
+
+  def initialize(capacity = 20)
+    @bikes_in_dock = []
+    @capacity = capacity
   end
 
-  def release_bike
-    if @first_bike
-      #bike = Bike.new
-      @first_bike = false
-      Bike.new
-    elsif self.dock(bike) != nil
-      #bike = Bike.new
-      Bike.new
+  def release_bike(bike)
+    if empty?
+      raise "No bike to release, use you eyes!"
+    elsif bike.working? == false
+      raise "This bike is broken, please select a different bike"
     else
-        raise "No bike to release, use you eyes!"
+      @bikes_in_dock.delete(bike)
+      bike
     end
   end
 
   def dock(bike)
-    if @first_dock
-      @first_dock = false
-      @bike = bike
-    elsif @bike == nil
-      @bike = bike
-    else
+    if full?
       raise "Bike dock full"
+    else
+      @bikes_in_dock.push(bike)
     end
+  end
+
+private
+
+  def full?
+    @bikes_in_dock.length >= @capacity ? true : false
+  end
+
+  def empty?
+    @bikes_in_dock.empty?
   end
 
 end
