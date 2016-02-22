@@ -1,4 +1,4 @@
-require "./lib/DockingStation.rb"
+require_relative "docking_station"
 
 class Van
 include BikeContainer

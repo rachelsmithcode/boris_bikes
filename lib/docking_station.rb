@@ -1,5 +1,5 @@
-require "./lib/Bike.rb"
-require "./lib/BikeContainer.rb"
+require_relative "bike"
+require_relative "bike_container"
 
 class DockingStation
   include BikeContainer
@@ -12,34 +12,26 @@ class DockingStation
   end
 
   def release_bike(bike)
-    if empty?
-      raise "No bike to release, use you eyes!"
-    elsif bike.working? == false
-      raise "This bike is broken, please select a different bike"
-    else
+      raise "No bike to release, use you eyes!" if empty?
+      raise "This bike is broken, please select a different bike" if !bike.working?
       @bikecontainer.delete(bike)
       bike
-    end
   end
 
   def dock(bike)
-    if full?
-      raise "Bike dock full"
-    else
-      @bikecontainer.push(bike)
-    end
+    full? ? raise("Bike dock full") : @bikecontainer.push(bike)
   end
 
   def take_bikes_from_van(van)
     van.bikecontainer.each do |bike|
-      @bikecontainer << bike # if bike.working?
+      @bikecontainer << bike
     end
   end
 
 private
 
   def full?
-    @bikecontainer.length >= @capacity ? true : false
+    @bikecontainer.length >= @capacity
   end
 
   def empty?

@@ -1,16 +1,22 @@
-require "Bike.rb"
+require "bike"
 
 describe Bike do
 
   subject(:bike) {described_class.new}
 
-  it "returns working == true if bike is working" do
-    expect(bike.working?).to eq true
+  it "returns working as true when initialize" do
+    expect(bike).to be_working
   end
 
-  it "returns false if bike is report_broken" do
+  it "returns working as false if bike is reported broken" do
     bike.report_broken
     expect(bike).not_to be_working
+  end
+
+  it "returns working as true if bike is fixed" do
+    bike.report_broken
+    bike.be_fixed
+    expect(bike).to be_working
   end
 
 end

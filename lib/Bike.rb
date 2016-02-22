@@ -12,6 +12,10 @@ class Bike
     @working = false
   end
 
+  def be_fixed
+    @working = true
+  end
+
   def docked?
     false
   end
